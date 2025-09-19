@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Wiki Dictionary</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Admin Panel</h1>
+
+  <form id="word-form">
+    <input type="text" id="word" placeholder="Word" required>
+    <input type="text" id="meaning" placeholder="Meaning" required>
+    <button type="submit">Add Word</button>
+  </form>
+
+  <p id="message"></p>
+
+  <script>
+    document.getElementById("word-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const word = document.getElementById("word").value;
+      const meaning = document.getElementById("meaning").value;
+
+      // Send request to serverless function
+      const res = await fetch("/.netlify/functions/addWord", {
+        method: "POST",
+        body: JSON.stringify({ 
+          word, 
+          meaning, 
+          password: "vajer123" // 🔑 must match backend password
+        })
+      });
+
+      const data = await res.json();
+      document.getElementById("message").textContent = data.message;
+    });
+  </script>
+</body>
+</html>

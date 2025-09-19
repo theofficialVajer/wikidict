@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wiki Dictionary</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Wiki Dictionary</h1>
+  <ul id="word-list"></ul>
+
+  <script>
+    async function loadWords() {
+      const res = await fetch("/.netlify/functions/getWords");
+      const words = await res.json();
+
+      const list = document.getElementById("word-list");
+      list.innerHTML = "";
+      words.forEach(w => {
+        const li = document.createElement("li");
+        li.textContent = `${w.word}: ${w.meaning}`;
+        list.appendChild(li);
+      });
+    }
+
+    loadWords();
+  </script>
+</body>
+</html>
